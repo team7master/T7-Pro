@@ -1,0 +1,26 @@
+---
+- name: install initial packages on all boxes
+  hosts: localhost
+  remote_user: ansible
+  become: yes
+  
+  tasks:
+  - name: install all initial packages
+    yum:
+      name: ['man', 'man-pages', 'mlocate', 'vim', 'bind-utils', 'sysstat ' ]
+      state: latest
+    
+  - name: install chrony packages 
+    yum: 
+      name: chrony 
+      state: latest
+
+  - name: configure chrony
+    template:
+      src: /ansible/roles/chrony/chrony-2/chrony.conf.j2
+      dest: /etc/chrony.conf
+
+  - name: restart chronyd
+    service: 
+      name: chronyd 
+      state: restarted 

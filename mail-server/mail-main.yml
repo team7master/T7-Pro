@@ -1,0 +1,115 @@
+---
+- name: preparing to install mail-server
+  hosts: mail-server
+  remote_user: ansible
+  become: yes 
+
+  tasks:
+  - name: install all packages
+    yum: 
+      name: [ 'epel-release', 'postfix', 'dovecot' ]
+      state: latest
+
+  - name: copy main.cf file template
+    template:
+      src: /ansible/roles/mail-server/main.cf
+      dest: /etc/postfix/main.cf
+ 
+  - name: start postfix
+    service:
+      name: postfix
+      enabled: true
+ 
+  - name: start postfix
+    service:
+      name: postfix
+      state: started
+
+  - name: configure dovecot file line-24
+    replace:
+      path: /etc/dovecot/dovecot.conf
+      regexp: '^#(.*protocols = imap pop3 lmtp.*)'
+      replace: '\1'
+
+  - name: editing 10-mail.conf file line-24
+    replace:
+      path: /etc/dovecot/conf.d/10-mail.conf
+      regexp: '^#(.*mail_location = maildir:~/Maildir.*)'
+      replace: '\1'
+
+  - name: editing 10-auth.conf file line-10
+    replace:
+      path: /etc/dovecot/conf.d/10-auth.conf
+      regexp: '^#(.*disable_plaintext_auth = yes.*)'
+      replace: '\1'
+
+  - name: editing 10-auth.conf file line-100
+    replace:
+      path: /etc/dovecot/conf.d/10-auth.conf
+      regexp: 'auth_mechanisms = plain'
+      replace: 'auth_mechanisms = plain login'
+
+  - name: adding line 10-master.conf file line-91
+    lineinfile:
+      path: /etc/dovecot/conf.d/10-master.conf
+      line:  
+      - unix_listener auth-userdb {
+        user = postfix
+        group = postfix
+      create: yes
+
+
+  - name: editing 10-master.conf file line-91
+    replace:
+      path: /etc/dovecot/conf.d/10-master.conf
+      after: '<mode = 0666[*]>'
+      before: '<*group =>'
+      regexp: '#user ='
+      replace: 'user = postfix'
+
+  - name: editing 10-master.conf file line-92
+    replace:
+      path: /etc/dovecot/conf.d/10-master.conf
+      regexp: '#group ='
+      replace: 'group = postfix'
+
+  - name: enable dovecot
+    service:
+      name: dovecot
+      enabled: true
+ 
+  - name: start dovecot
+    service:
+      name: dovecot
+      state: started
+
+  - name: installing squirrelmail 
+    yum: 
+      name: [ 'squirrelmail' ]
+      state: latest
+
+  - name: squirrelmail.removing default config.php file
+    file:
+      path: /etc/squirrelmail/config.php
+      state: absent
+
+  - name: creating  squirrelmail php file
+    template:
+      src: /ansible/roles/mail-server/config.php
+      dest: /etc/squirrelmail/config.php
+
+  
+  - name: editing httpd.conf file
+    template:
+      src: /ansible/roles/mail-server/httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+
+  - name: copy logo
+    template:
+      src: /ansible/roles/mail-server/ziyotek-logo.png
+      dest: /usr/share/squirrelmail/config/images/ziyotek-logo.png
+      
+  - name: restart httpd service
+    service:
+      name: httpd
+      state: restarted

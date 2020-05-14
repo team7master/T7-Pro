@@ -1,0 +1,17 @@
+---
+- name: ftp client config
+  hosts: localhost
+  remote_user: ansbile
+  become: yes
+  tasks:
+ 
+  - name: config ftp
+    template: 
+      src: /ansible/roles/ftp-client-config/ftp.repo.j2
+      dest: /etc/yum.repos.d/ftp.repo
+
+  - name: install ftp package
+    yum:
+      name: ftp
+      state: latest
+ 

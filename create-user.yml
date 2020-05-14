@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  remote_user: root
+  become: true
+  tasks:
+  - name: Create a login user
+    user: 
+      name: user1
+      password: '$1$ZdAcV1zZ$MazcD8l12K07p.sr5w6XE0'
+
+      groups:                # Empty by default.
+      state: present
+      shell: /bin/bash       # Defaults to /bin/bash
+      system: no             # Defaults to no
+      createhome: yes        # Defaults to yes
+      home: /home/akhror     # Defaults to /home/<username>
+
+  - name: Append to /etc/sudoers
+    shell: 'echo "akhror  ALL=(ALL) NOPASSWD:  ALL" >> /etc/sudoers'
+
+  - name: change root password
+    shell: openssl passwd root | --stdin password123
