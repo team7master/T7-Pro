@@ -1,0 +1,10 @@
+---
+
+- name: configure ldap server
+  remote_user: ansible 
+  become: yes
+  hosts: prdx-ldap701
+  gather_facts: true
+  roles:
+    - open_ldap
+

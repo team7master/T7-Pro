@@ -1,0 +1,57 @@
+---
+- name: Installation of LAMP Stack into Centos 7
+  hosts: centos6
+  remote_user: ansible
+  become: yes
+  tasks:
+
+  - name: Install Epel-release
+    yum:
+      name: epel-release
+      state: latest
+
+#  - name: Adding repository details in MariaDB repo file.
+#    yum_repository:
+#      name: Mariadb
+#      description: mariadb repo
+#      baseurl: http://yum.mariadb.org/10.1/centos7-amd64
+#      enabled: yes
+#      gpgcheck: yes
+#      gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-NariaDB
+ 
+#  - name: Install packages
+#    yum:
+#      name: ['MariaDB-server, MariaDB-client']
+#      state: latest
+
+  - name: Install packages
+    yum:
+      name: ['httpd', 'mysql*',  'php', 'php-mysql', 'phpmyadmin']
+      state: latest
+
+  - name: Web browser permission
+    copy:
+      src: /ansible/roles/DataBase/phpMyAdmin.conf
+      dest: /etc/httpd/conf.d/phpMyAdmin.conf
+
+#  - name: Add user and password for MYSQL
+#    mysql_user:
+#      name: mysql-user
+#      priv: '*.*:ALL'
+#      state: present
+
+  - name: Start the servers
+    service:
+      state: started
+      enabled: yes
+      name: httpd
+
+    service:
+      name: mariadb
+      state: started
+      enabled: yes
+
+    service:
+      name: iptables
+      state: stopped
+

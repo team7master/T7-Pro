@@ -1,0 +1,35 @@
+---
+- name: DNS Master configuration
+  hosts: dns-slaves
+  remote_user: ansible
+  become: yes
+
+  tasks:
+  - name: Install package
+    yum:
+      name: [ bind, bind-utils ]
+      state: latest
+
+  - name: Named.conf
+    template:
+      src: /ansible/roles/DNS-Slaves/named.conf.j2
+      dest: /etc/named.conf
+  
+  - name: Go to /var/named and reload rlz and rlz files
+    shell: cd /var/named && rndc reload ziyotek7.local && rndc reload 38.168.192.in-addr.arpa
+
+  - name: Edit resolv file
+      template:
+        src: /ansible/roles/DNS-Master/resolv.conf.j2
+        dest: /etc/resolv.conf
+
+  - name: Restart named
+    service:
+      name: named
+      state: restarted
+
+  - name: Enable named
+    service:
+      name: named
+      enabled: yes
+

@@ -63,7 +63,7 @@ oobserver_pass: admin
 
 ### DNS Service Options
 # dns domain you want service checks to query
-dns_check_domain: example.com
+dns_check_domain: ziyotek7.com
 
 ### FreeNAS Options
 # change to false if you're using http, which is a bad idea

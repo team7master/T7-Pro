@@ -1,0 +1,17 @@
+---
+
+- name: configure ldap server
+  remote_user: root
+  become: yes
+  hosts: all,!prdx-ldap701 
+  gather_facts: true
+  tasks:
+    - name: Install ldap client packages
+      yum: 
+        pkg:
+          - openldap-clients
+          - nss-pam-ldapd  
+
+    - name: Setup ldap host
+      command: authconfig --enableldap --enableldapauth --enablemkhomedir --ldapserver=prdx-ldap701.ziyotek7.local --ldapbasedn="dc=ziyotek7,dc=local" --update
+

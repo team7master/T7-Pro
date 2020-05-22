@@ -1,0 +1,47 @@
+$TTL 1D
+@       IN SOA          prdx-nsm701.ziyotek7.local. root.prdx-nsm701.ziyotek7.local. (
+                                       051320   ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+; name servers NS records
+           IN      NS      prdx-nsm701.ziyotek7.local.
+           IN      NS      prdx-nsw701.ziyotek7.local.
+           IN      NS      prdx-nsw702.ziyotek7.local.
+
+; name servers PTR records
+103          IN      PTR     prdx-nsm701.ziyotek7.local.
+104          IN      PTR     prdx-nsw701.ziyotek7.local.
+14           IN      PTR     prdx-nsw702.ziyotek7.local.
+
+; servers
+101          IN      PTR     prdx-ntp701.ziyotek7.local.
+102          IN      PTR     prdx-ntp702.ziyotek7.local.
+11           IN      PTR     prdx-pxe701.ziyotek7.local.
+13           IN      PTR     prdx-ftp701.ziyotek7.local.
+18           IN      PTR     prdx-nfs701.ziyotek7.local.
+19           IN      PTR     prdx-samba701.ziyotek7.local.
+21           IN      PTR     prdx-mail701.ziyotek7.local.
+200          IN      PTR     prdx-db761.ziyotek7.local.
+46           IN      PTR     prdx-db771.ziyotek7.local.
+201          IN      PTR     prdx-web761.ziyotek7.local.
+31           IN      PTR     prdx-web771.ziyotek7.local.
+202          IN      PTR     prdx-web762.ziyotek7.local.
+34           IN      PTR     prdx-web772.ziyotek7.local.
+203          IN      PTR     prdx-web763.ziyotek7.local.
+35           IN      PTR     prdx-web773.ziyotek7.local.
+204          IN      PTR     prdx-lb761.ziyotek7.local.
+36           IN      PTR     prdx-lb771.ziyotek7.local.
+15           IN      PTR     prdx-nagios701.ziyotek7.local.
+16           IN      PTR     prdx-ldap701.ziyotek7.local.
+106          IN      PTR     prdx-ansible701.ziyotek7.local.
+20           IN      PTR     prdx-dockm701.ziyotek7.local.
+22           IN      PTR     prdx-dockw701.ziyotek7.local.
+23           IN      PTR     prdx-dockw702.ziyotek7.local.
+24           IN      PTR     prdx-jenkins701.ziyotek7.local.
+25           IN      PTR     prdx-kubem701.ziyotek7.local.
+27           IN      PTR     prdx-kubew701.ziyotek7.local.
+28           IN      PTR     prdx-kubew702.ziyotek7.local.
+88           IN      PTR     prdx-ftp702.ziyotek7.local.
+

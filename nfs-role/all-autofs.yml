@@ -1,0 +1,35 @@
+---
+- name: config all boxes
+  hosts: all
+  user: ansible
+  become: true
+ 
+  tasks: 
+    - name: Install package
+      yum: 
+        name: ['nfs-utils', 'autofs'] 
+        state: latest
+
+    - name: modify auto.master
+      lineinfile: 
+        path: /etc/auto.master
+        line: '/share   /etc/auto.share'
+        insertbefore: NOTE
+
+    - name: config auto.share
+      lineinfile: 
+        path: /etc/auto.share
+        line: '*   -rw,sync  prdx-nfs701:/share'
+        create: yes
+
+    - name: start service
+      service:
+        name: nfs
+        state: started
+        enabled: true
+
+    - name: start service
+      service:
+        name: autofs
+        state: started
+        enabled: true

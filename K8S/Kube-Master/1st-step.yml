@@ -1,0 +1,10 @@
+---
+- hosts: kuberworkers
+  remote_user: ansible
+  become: true
+
+  tasks:
+  - name: Copy fstab
+    copy:
+      src: /ansible/roles/K8S/Kube-Master/hosts.j2
+      dest: /etc/hosts

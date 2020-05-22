@@ -1,0 +1,30 @@
+---
+
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ openssl_cert_packages }}"
+
+- name: Generate a self-signed cert and a private key for a custom CA
+  command: "openssl req -new -nodes -x509 -days {{ openssl_cert_days }} -subj {{ subject }} -keyout {{ key_filename }} -out {{ crt_filename }}"
+  args:
+    chdir: "{{ openssl_cert_workdir }}"
+  vars:
+    key_filename: "ldapkey.pem"
+    crt_filename: "ldap_crt.pem"
+    subject: "/C={{ openssl_cert_country }}/ST={{ openssl_cert_state }}/O={{ openssl_cert_organization }}/OU={{ openssl_cert_unit }}/CN={{ openssl_cert_common_name }}"
+
+- name: Copy key.ldif templates
+  template:
+    src: key.ldif
+    dest: /tmp
+
+- name: Load key.ldif template into ldap
+  command: ldapmodify -Y EXTERNAL  -H ldapi:/// -f /tmp/key.ldif
+
+- name: start apache repo
+  copy: remote_src=yes src=/etc/openldap/certs/ldap_crt.pem  dest=/var/www/html/
+  notify: 
+    - restart apache
+    - restart slapd 

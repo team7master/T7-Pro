@@ -1,0 +1,48 @@
+---
+- name: Install packages
+  hosts: load-balancer
+  remote_user: ansible
+  become: true
+
+  tasks:
+  - name: Installing haproxy
+    yum:
+      name: haproxy
+      state: latest
+
+  - name: config haproxy.cnf file(frontend)
+    lineinfile:
+      path: /etc/haproxy/haproxy.cfg
+      line: 'frontend  main *:5000'
+      state: absent
+
+  - name: config haproxy.cnf file(frontend)
+    lineinfile:
+      path: /etc/haproxy/haproxy.cfg
+      line: 'frontend  main 192.168.38.36:80'
+      insertbefore: path_beg
+  
+
+  - name: config backend app
+    lineinfile:
+      path: /etc/haproxy/haproxy.cfg
+      regexp: '{{item.From}}'
+      line: '{{item.To}}'
+      state: present
+    with_items:
+     - { From: 'server      static 127.0.0.1:4331 check', To: 'server      static 192.168.38.36:80 check' }
+     - { From: 'server  app1 127.0.0.1:5001 check', To: 'server  app1 192.168.38.31:80 check' }
+     - { From: 'server  app2 127.0.0.1:5002 check', To: 'server  app2 192.168.38.34:80 check' }
+     - { From: 'server  app3 127.0.0.1:5003 check', To: 'server  app3 192.168.38.35:80 check' }
+
+  - name: start haproxy service
+    service:
+      name: haproxy
+      state: started
+      enabled: true 
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+$TTL 1D
+@       IN SOA   prdx-nsm701.ziyotek7.local. root.prdx-nsm701.ziyotek7.local. (
+                                      051320    ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+
+; name servers NS records
+            IN      NS      prdx-nsm701.ziyotek7.local.
+            IN      NS      prdx-nsw701.ziyotek7.local.
+            IN      NS      prdx-nsw702.ziyotek7.local.
+
+; name servers A records
+prdx-nsm701       IN      A       192.168.38.103
+prdx-nsw701       IN      A       192.168.38.104
+prdx-nsw702       IN      A       192.168.38.14
+
+
+; servers
+prdx-ntp701            IN      A       192.168.38.101
+prdx-ntp702            IN      A       192.168.38.102
+prdx-pxe701             IN      A       192.168.38.11
+prdx-ftp701             IN      A       192.168.38.13
+prdx-nfs701             IN      A       192.168.38.18
+prdx-samba701           IN      A       192.168.38.19
+prdx-mail701            IN      A       192.168.38.21
+prdx-db761              IN      A       192.168.38.200
+prdx-db771              IN      A       192.168.38.46
+prdx-web761             IN      A       192.168.38.201
+prdx-web771             IN      A       192.168.38.31
+prdx-web762             IN      A       192.168.38.202
+prdx-web772             IN      A       192.168.38.34
+prdx-web763             IN      A       192.168.38.203
+prdx-web773             IN      A       192.168.38.35
+prdx-lb761              IN      A       192.168.38.204
+prdx-lb771              IN      A       192.168.38.36
+prdx-nagios701          IN      A       192.168.38.15
+prdx-ldap701            IN      A       192.168.38.16
+prdx-ansible701         IN      A       192.168.38.106
+prdx-dockm701           IN      A       192.168.38.20
+prdx-dockw701           IN      A       192.168.38.22
+prdx-dockw702           IN      A       192.168.38.23
+prdx-jenkins701         IN      A       192.168.38.24
+prdx-kubem701           IN      A       192.168.38.25
+prdx-kubew701           IN      A       192.168.38.27
+prdx-kubew702           IN      A       192.168.38.28
+prdx-ftp702             IN      A       192.168.38.88
+
