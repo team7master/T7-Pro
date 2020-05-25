@@ -1,4 +1,4 @@
-#Ansible hosts for ziyotek devops 2019 class project , team7 created by Divine Nganjo 
+#Ansible hosts for ziyotek devops 2019 class project , team7 created by Divine Nganjo here
 
 ###The following i just yanked and pasted so i can easily edit and assigned to the rest of the servers
 ##So note that a good number of the servers havent been assigned yet.Please all you need to do is edit the name and assign it a group
