@@ -1,0 +1,47 @@
+---
+# tasks file for /ansible/roles/DNS-Client-Role
+# - name: Deploy to clients
+#  hosts: clients #hosts file
+#  remote_user: ansible
+#  become: true
+#  tasks:
+ - name: make change on line dns to none in the /etc/NetworkManager/NetworkManager.conf
+   ini_file:
+     path: /etc/NetworkManager/NetworkManager.conf
+     state: present
+     no_extra_spaces: yes
+     section: main
+     option: dns
+     value: none
+     owner: root
+     group: root
+     mode: 0644
+     backup: yes
+
+ - name: deploy resolv.conf template
+   template:
+     src: /ansible/roles/DNS-Client-Role/templates/resolv.conf
+     dest: /etc/resolv.conf
+
+ - name: restart network
+   systemd:
+     name: network
+     state: restarted
+
+# - include: /ansible/roles/DNS/DNS-Client-Role/files/service.yml
+#   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == '6'
+# - include: /ansible/roles/DNS/DNS-Client-Role/files/systemd.yml
+#   when: ansible_distribution == "CentOS" and ansible_distribution_major_version > '6'
+
+
+# - include: /ansible/roles/DNS/DNS-Client-Role/files/service.yml
+#   when: ansible_distribution == "CentOS 6*"
+# - include: /ansible/roles/DNS/DNS-Client-Role/files/systemd.yml
+#   when: ansible_distribution == "CentOS 7*"
+
+
+# - name: restart network
+#    service:
+#      name: network
+#      state: restarted
+

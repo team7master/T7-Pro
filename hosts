@@ -11,7 +11,7 @@ prdx-web763
 prdx-web773
 
 [timeservers]
-#prdx-ntp701
+prdx-ntp701
 prdx-ntp702
 
 [nameservers]
@@ -31,9 +31,9 @@ prdx-lb771
 prdx-lb761
 
 [kubernetes]
-prdx-kubem701
-prdx-kubew701
-prdx-kubew702
+prdx-kubem702
+prdx-kubew711
+prdx-kubew712
 
 [docker]
 prdx-dockm701
@@ -50,10 +50,10 @@ prdx-ldap701
 prdx-pxe701
 
 [ftp-server]
-prdx-ftp701
+#prdx-ftp702
 
 [nfs-server]
-prdx-nfs701
+#prdx-nfs701
 
 [samba-server]
 prdx-samba701
@@ -61,6 +61,7 @@ prdx-samba701
 [mail-server]
 prdx-mail701
 
-
+[test]
+#192.168.38.231
 [localhost]
 #prdx-ansible701

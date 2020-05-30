@@ -1,0 +1,44 @@
+---
+#  - name: disallow root SSH access
+#    lineinfile:
+#      path: /etc/ssh/sshd_config 
+#      regexp: '^PermitRootLogin' 
+#      line: 'PermitRootLogin no'
+#     state=present
+#     backup=yes
+
+ -  name: Install initial packages
+    yum:
+      name: ['bind-utils', 'man', 'man-pages', 'vim', 'mlocate', 'sysstat']
+      state: latest
+
+# - name: restart sshd
+#   systemd:
+#     name: sshd
+#     state: restarted
+#     enable: yes 
+
+# - name: firewall disable
+#   systemd: 
+#     name: firewalld
+#     permanent: yes
+#     immediate: yes
+#     state: stopped
+
+ - name: selinux off
+   shell: setenforce 0
+  
+ - name: selinux off
+   shell: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+ 
+# - name: Ensure SELinux is set to enforcing mode
+#   lineinfile:
+#     path: /etc/selinux/config
+#     regexp: '^SELINUX='
+#     line: SELINUX=disabled
+ 
+# - name: Disable SELinux
+#   selinux:
+#     state: disabled
+#     state: always
+#     reboot_required: always

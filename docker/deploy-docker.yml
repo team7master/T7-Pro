@@ -1,8 +1,0 @@
----
-- name: Deploy docker and nodes
-  hosts: docker-server-and-slaves
-  become: yes
-  vars: 
-    docker_users: ["team-7"] 
-  roles:
-    - ansible-role-docker

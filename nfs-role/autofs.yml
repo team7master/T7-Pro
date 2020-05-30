@@ -1,8 +1,0 @@
----
-- name: config all boxes
-  hosts: all
-  user: ansible
-  become: true
-  
-
-

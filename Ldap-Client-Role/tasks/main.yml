@@ -1,0 +1,46 @@
+---
+ - name: Install required packages
+   yum: name={{item}} state=latest
+   with_items: 
+     - openldap-clients
+     - nss-pam-ldapd
+     - authconfig
+     - nfs-utils
+     - autofs
+   
+ - name: Redhat | Execute authconfig
+   command: authconfig --enableldap --enableldapauth --enablemkhomedir --ldapserver=prdx-ldap701.ziyotek7.local --ldapbasedn="dc=ziyotek7,dc=local" --update
+   changed_when: false
+
+ - name: create mountpoint
+   command: "mkdir /share/home"
+   changed_when: false
+   failed_when: false
+
+ - name: modify /etc/auto.master file
+   lineinfile: 
+     path: /etc/auto.master
+     line: '/share/home /etc/auto.ldap --timeout 60'
+     insertbefore: "^# NOTE"
+
+ - name: create direct-mapping file
+   copy: content="* -fstype=autofs,rw,sync prdx-nfs701:/share/home/&" dest=/etc/auto.ldap
+#   notify: restart autofs
+
+ - name: start the services
+   service:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+   with_items:
+     - autofs
+
+ - name: restrart
+   service:
+     name: autofs
+     state: restarted
+     enabled: yes
+  
+# - handlers:
+#     name: restart autofs
+#     service: name=autofs state=restarted

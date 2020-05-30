@@ -1,0 +1,5 @@
+---
+ - name: restart the network on CentOS6
+   service: 
+     name: network
+     state: restarted

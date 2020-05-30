@@ -1,0 +1,15 @@
+--- 
+ - name: install chrony packages 
+   yum: 
+     name: chrony 
+     state: latest
+
+ - name: configure chrony
+   template:
+     src: /ansible/roles/Chrony-Role/templates/chrony.conf.j2
+     dest: /etc/chrony.conf
+
+ - name: restart chronyd
+   service: 
+     name: chronyd 
+     state: restarted 

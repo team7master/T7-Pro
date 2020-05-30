@@ -1,0 +1,8 @@
+---
+- name: autofs client deploy
+  hosts: all
+  remote_user: ansible
+  become: yes
+
+  roles:
+    - Autofs-Client-Role

@@ -1,0 +1,12 @@
+---
+- hosts: test
+  remote_user: ansible
+  become: true
+  gather_facts: false
+
+  roles:
+    - DNS-Client-Role
+    - Initial-Role
+    - Chrony-Role
+    - Ldap-Client-Role
+

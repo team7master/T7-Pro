@@ -1,0 +1,10 @@
+---
+- name: DNS Slave set up
+  hosts: 
+  remote_user: ansible
+  become: true
+
+  roles: 
+    - Initial-Role
+    - DNS-Slave-Role
+    - Chrony-Role

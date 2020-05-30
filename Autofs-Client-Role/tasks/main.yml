@@ -1,0 +1,30 @@
+---
+# tasks file for Autofs-Client-Role
+ - name: Install package
+   yum:
+     name: ['nfs-utils', 'autofs']
+     state: latest
+
+ - name: modify auto.master
+   lineinfile:
+     path: /etc/auto.master
+     line: '/autofs   /etc/auto.autofs'
+#     insertbefore: NOTE
+
+ - name: config auto.autofs
+   lineinfile:
+     path: /etc/auto.autofs
+     line: '* -rw,sync  prdx-nfs701:/autofs'
+     create: yes
+
+ - name: start service
+   service:
+     name: nfs
+     state: started
+     enabled: true
+
+ - name: start service
+   service:
+     name: autofs
+     state: restarted
+     enabled: true
